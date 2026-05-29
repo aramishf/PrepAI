@@ -5,6 +5,9 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "remoteEnv": {
+    "ANTHROPIC_MODEL": "claude-sonnet-4-6"
+  },
   "customizations": {
     "vscode": {
       "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
