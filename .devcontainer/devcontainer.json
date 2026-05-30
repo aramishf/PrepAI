@@ -10,6 +10,12 @@
   },
   "customizations": {
     "vscode": {
+      "settings": {
+        "git.enableSmartCommit": true,
+        "git.postCommitCommand": "sync",
+        "git.confirmSync": false,
+        "git.autofetch": true
+      },
       "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
     }
   }
