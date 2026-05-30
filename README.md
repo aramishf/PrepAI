@@ -1,6 +1,3 @@
-# InternHubSmokeTestSmoke test ok
-test2
-test3
 # Team Project
 
 This is your team's project repository. Your full development environment runs in the cloud
