@@ -1,10 +1,10 @@
 {
-  "name": "InternHub Smoke Test",
+  "name": "InternHub — Claude Code",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
   "remoteEnv": {
     "ANTHROPIC_MODEL": "claude-sonnet-4-6"
   },
