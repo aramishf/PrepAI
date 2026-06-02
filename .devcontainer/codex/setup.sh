@@ -8,6 +8,10 @@ npm install -g @openai/codex
 mkdir -p "$HOME/.codex"
 cat > "$HOME/.codex/config.toml" <<'EOF'
 forced_login_method = "api"
+# Disable Codex's own bubblewrap sandbox: it can't run inside a Codespace container (nested-namespace
+# restrictions), so it fails and prompts "retry without sandbox" on every command. The Codespace is
+# already a disposable, isolated container, so it IS the safety boundary — no nested sandbox needed.
+sandbox_mode = "danger-full-access"
 EOF
 
 # Cache the API key so interactive `codex` works without a browser. The OPENAI_API_KEY Codespaces
