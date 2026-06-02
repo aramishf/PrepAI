@@ -35,5 +35,16 @@ if [ -f "$EXCLUDE" ]; then
   done
 fi
 
+# Show the start command in every new interactive terminal so interns can't miss it.
+# This line only appears AFTER install finishes, so a new terminal showing it also signals
+# "build done, ready to go." Idempotent.
+if ! grep -qF "openclaw chat" "$HOME/.bashrc" 2>/dev/null; then
+  cat >> "$HOME/.bashrc" <<'EOF'
+
+# Intern reminder
+if [[ $- == *i* ]]; then echo "👋 Your AI agent is ready. Start it with:  openclaw chat"; fi
+EOF
+fi
+
 echo "OpenClaw installed; agent workspace = $WORKSPACE"
 echo "Use it with:  openclaw chat"
