@@ -1,0 +1,20 @@
+{
+  "name": "InternHub — OpenClaw (Claude)",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "bash .devcontainer/openclaw/setup.sh",
+  "forwardPorts": [18789],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "git.enableSmartCommit": true,
+        "git.postCommitCommand": "sync",
+        "git.confirmSync": false,
+        "git.autofetch": true
+      },
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    }
+  }
+}
