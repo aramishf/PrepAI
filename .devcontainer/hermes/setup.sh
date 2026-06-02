@@ -17,7 +17,16 @@ model:
   default: "claude-sonnet-4-6"
 EOF
 
+# Show the start command in every new interactive terminal so interns can't miss it.
+# (Also why a fresh terminal matters here: PATH for ~/.local/bin only applies to new shells.)
+# Idempotent.
+if ! grep -qF "Start it with:  hermes" "$HOME/.bashrc" 2>/dev/null; then
+  cat >> "$HOME/.bashrc" <<'EOF'
+
+# Intern reminder
+if [[ $- == *i* ]]; then echo "👋 Your AI agent is ready. Start it with:  hermes"; fi
+EOF
+fi
+
 echo "Hermes installed at ~/.local/bin/hermes."
-echo "Open a NEW terminal (so PATH picks up ~/.local/bin), then verify with:"
-echo "  hermes --help"
-echo "  hermes            # then ask it something, e.g. 'Summarize this repo in 5 bullets'"
+echo "Open a NEW terminal (so PATH picks up ~/.local/bin), then run:  hermes"
