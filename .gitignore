@@ -6,6 +6,9 @@ TESTPLAN.md
 PROPOSAL-PREP.md
 PROPOSAL.md
 
+# Internal teaching content (lectures, assessments)
+content/
+
 # Claude Code session/config data
 .claude/
 
