@@ -2,7 +2,8 @@
   "name": "InternHub — OpenClaw (Claude)",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.12" }
   },
   "postCreateCommand": "bash .devcontainer/openclaw/setup.sh",
   "forwardPorts": [18789],
