@@ -8,3 +8,6 @@ PROPOSAL.md
 
 # Claude Code session/config data
 .claude/
+
+# Generated PDFs (internal)
+*.pdf
