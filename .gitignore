@@ -17,3 +17,9 @@ content/
 
 # Generated zips (internal)
 *.zip
+
+# Marketing / recruiting drop folder (never tracked)
+marketing/
+
+# macOS
+.DS_Store
