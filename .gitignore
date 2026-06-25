@@ -23,3 +23,11 @@ marketing/
 
 # macOS
 .DS_Store
+
+# Credentials
+.env
+
+# Python caching
+__pycache__/
+*.pyc
+
