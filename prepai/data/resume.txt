@@ -1,0 +1,43 @@
+John Doe
+Software Engineer
+
+SUMMARY
+Experienced software engineer with 5 years of expertise in full-stack development, specializing in Python, JavaScript, and cloud technologies. Proven track record of building scalable applications and leading cross-functional teams. Strong problem-solving skills and passion for creating innovative solutions that drive business value.
+
+EXPERIENCE
+
+Senior Software Engineer | Tech Solutions Inc. | 2021 - Present
+- Led development of microservices architecture serving 10M+ users, resulting in 40% improvement in system performance
+- Implemented CI/CD pipeline using GitHub Actions, reducing deployment time by 60%
+- Mentored team of 5 junior engineers, establishing code review best practices and fostering collaborative culture
+- Developed RESTful APIs using Python Flask and FastAPI frameworks
+- Collaborated with product managers and designers to deliver features aligned with business objectives
+
+Software Engineer | StartupXYZ | 2019 - 2021
+- Built and maintained full-stack web applications using React, Node.js, and PostgreSQL
+- Integrated third-party payment systems (Stripe, PayPal) processing $2M+ in transactions
+- Optimized database queries reducing average response time from 800ms to 120ms
+- Participated in agile development process with daily standups and bi-weekly sprints
+- Wrote comprehensive unit and integration tests achieving 85% code coverage
+
+TECHNICAL SKILLS
+Languages: Python, JavaScript, TypeScript, SQL, HTML/CSS
+Frameworks: React, Node.js, Flask, FastAPI, Django, Express
+Databases: PostgreSQL, MongoDB, Redis, ChromaDB
+Cloud & DevOps: AWS (EC2, S3, Lambda), Docker, Kubernetes, GitHub Actions, CircleCI
+Tools: Git, Jira, Postman, VS Code, Linux
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of Technology | 2015 - 2019
+GPA: 3.8/4.0
+
+CERTIFICATIONS
+- AWS Certified Developer Associate
+- Professional Scrum Master I
+
+PROJECTS
+AI Interview Coach | Personal Project
+- Developed multi-agent system using Claude API for interview preparation
+- Implemented RAG pipeline with ChromaDB for context-aware question generation
+- Created interactive feedback system with performance scoring rubric

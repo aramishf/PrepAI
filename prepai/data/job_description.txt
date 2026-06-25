@@ -1,0 +1,62 @@
+Senior Backend Engineer
+AI Startup Inc.
+San Francisco, CA (Remote Available)
+
+ABOUT US
+AI Startup Inc. is a fast-growing technology company revolutionizing how businesses leverage artificial intelligence. We're building cutting-edge AI-powered solutions that help companies automate workflows, improve decision-making, and scale their operations. Our team of 50+ engineers and researchers is backed by top-tier venture capital firms and serves Fortune 500 clients across multiple industries.
+
+THE ROLE
+We're seeking an exceptional Senior Backend Engineer to join our Platform Engineering team. You'll be responsible for designing and building scalable backend systems that power our AI applications. This role requires strong technical skills, collaborative mindset, and passion for solving complex distributed systems challenges. You'll work directly with AI researchers, product managers, and frontend engineers to deliver high-impact features that delight our customers.
+
+RESPONSIBILITIES
+- Design, develop, and maintain robust backend services and APIs using Python and modern frameworks
+- Build and optimize data pipelines for processing large-scale datasets used in AI model training
+- Implement vector database solutions for efficient similarity search and retrieval augmented generation
+- Collaborate with ML engineers to deploy and scale machine learning models in production
+- Write clean, maintainable code with comprehensive test coverage and documentation
+- Participate in code reviews, architectural discussions, and technical planning sessions
+- Monitor system performance, troubleshoot issues, and implement solutions for high availability
+- Mentor junior engineers and contribute to team's technical growth
+- Stay current with emerging technologies and evaluate tools that could improve our stack
+
+REQUIRED QUALIFICATIONS
+- 5+ years of professional software engineering experience with focus on backend development
+- Strong proficiency in Python and experience with frameworks like FastAPI, Flask, or Django
+- Deep understanding of RESTful API design, microservices architecture, and distributed systems
+- Experience with relational databases (PostgreSQL, MySQL) and NoSQL databases (MongoDB, Redis)
+- Solid knowledge of cloud platforms (AWS, GCP, or Azure) and containerization (Docker, Kubernetes)
+- Familiarity with CI/CD practices and tools like GitHub Actions, Jenkins, or CircleCI
+- Strong problem-solving skills and ability to debug complex production issues
+- Excellent communication skills and ability to work effectively in cross-functional teams
+- Bachelor's degree in Computer Science or equivalent practical experience
+
+PREFERRED QUALIFICATIONS
+- Experience building applications with Large Language Models (OpenAI, Anthropic Claude, etc.)
+- Knowledge of vector databases like Pinecone, Weaviate, ChromaDB, or Qdrant
+- Understanding of RAG (Retrieval Augmented Generation) architectures and prompt engineering
+- Experience with real-time data processing systems like Kafka, RabbitMQ, or Redis Streams
+- Contributions to open-source projects or active technical blog/portfolio
+- Experience working in startup environments and comfort with rapid iteration
+- Knowledge of security best practices and compliance requirements (SOC2, GDPR)
+
+TECH STACK
+Backend: Python, FastAPI, PostgreSQL, Redis, Celery
+AI/ML: OpenAI API, Anthropic Claude, LangChain, vector databases
+Infrastructure: AWS (ECS, Lambda, S3, RDS), Docker, Terraform
+Monitoring: Datadog, Sentry, CloudWatch
+Tools: GitHub, Jira, Slack, Notion
+
+WHAT WE OFFER
+- Competitive salary range: $150,000 - $200,000 + equity
+- Comprehensive health, dental, and vision insurance
+- Flexible remote work policy with optional office space
+- Professional development budget for courses, conferences, and certifications
+- Latest MacBook Pro and equipment setup of your choice
+- Unlimited PTO and flexible working hours
+- 401(k) matching program
+- Team offsites and company retreats twice per year
+
+HOW TO APPLY
+Please submit your resume along with a brief cover letter explaining why you're excited about this opportunity. We review applications on a rolling basis and typically respond within one week. Our interview process includes technical screening, system design discussion, coding exercise, and team fit conversations.
+
+AI Startup Inc. is an equal opportunity employer committed to building a diverse and inclusive team. We welcome applications from candidates of all backgrounds and experiences.
