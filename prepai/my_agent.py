@@ -1,25 +1,29 @@
 import asyncio
+import os
 from claude_agent_sdk import query, ClaudeAgentOptions
 
 async def main():
-    # Step 1: We fulfill the stretch goal by giving it the Read tool
-    options = ClaudeAgentOptions(tools=["Read"]) 
+    # 1. Verify file existence first
+    path = "prepai/data/resume.txt"
+    if not os.path.exists(path):
+        print(f"DEBUG: Critical Error! {path} not found in {os.getcwd()}")
+        return
+
+    print(f"DEBUG: Found {path}, starting agent...")
     
-    # Step 2: The Agentic Prompt
-    # We tell it what to read, and what to do with that information
+    options = ClaudeAgentOptions(tools=["Read"])
+    
+    # FINAL FIX: Force the prompt to explicitly pass the exact path to the tool
     prompt = """
-    Please use the Read tool to read the file 'resume.txt' in this directory. 
-    Analyze my experience, find the most complex technical project I listed, 
-    and ask me one highly specific, difficult interview question about 
-    the trade-offs I made in that project.
+    Please use the Read tool to read the file located at 'prepai/data/resume.txt'. 
+    Tell me what you see in the first 5 lines to confirm you've opened it. 
+    Then, analyze my experience to find the most complex technical project I listed, 
+    and ask me one highly specific, difficult interview question about the trade-offs I made.
     """
     
-    print("Agent is reading your resume and thinking...\n")
-    print("-" * 50)
-    
-    # Step 3: The Execution Loop
+    # 2. Capture every message
     async for message in query(prompt=prompt, options=options):
-        print(message)
+        print(f"AGENT MESSAGE: {message}")
 
 if __name__ == "__main__":
     asyncio.run(main())
