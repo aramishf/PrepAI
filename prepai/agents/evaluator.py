@@ -93,6 +93,14 @@ Provide your strict evaluation as valid JSON only."""
             )
 
             # Extract the text content from the response
+            if not response.content:
+                print(f"Warning: Model returned empty content. Stop reason: {response.stop_reason}")
+                return {
+                    "relevance": 0, "specificity": 0, "star_completeness": 0,
+                    "confidence": 0, "accuracy": 0, "impact": 0, "overall_score": 0,
+                    "strength": "Error evaluating answer.",
+                    "weakness": f"API Refusal: The model refused to evaluate this response ({response.stop_reason})."
+                }
             response_text = response.content[0].text
 
             # Robust JSON parser that cleans markdown fences
