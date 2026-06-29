@@ -145,8 +145,35 @@ def render_score_bar(label: str, value: int):
         unsafe_allow_html=True
     )
 
+from voice.speak import speak_text
+from voice.listen import render_voice_input
+from voice.listen_server import start_flask
+import time
+
 st.set_page_config(page_title="AI Interview Coach", layout="wide")
-st.title("🤖 AI Interview Coach")
+
+# Mute toggle button top-right of main area
+header_col1, header_col2 = st.columns([0.9, 0.1])
+with header_col1:
+    st.title("🤖 AI Interview Coach")
+with header_col2:
+    # Initialize voice state variables
+    if "voice_enabled" not in st.session_state:
+        st.session_state.voice_enabled = True
+    if "last_spoken" not in st.session_state:
+        st.session_state.last_spoken = None
+    if "flask_server_started" not in st.session_state:
+        try:
+            start_flask()
+            st.session_state.flask_server_started = True
+        except Exception as e:
+            st.error(f"Error starting local voice server: {e}")
+            st.session_state.flask_server_started = False
+
+    mute_label = "🔊" if st.session_state.voice_enabled else "🔇"
+    if st.button(mute_label, key="mute_toggle"):
+        st.session_state.voice_enabled = not st.session_state.voice_enabled
+        st.rerun()
 
 # Initialize graph and configuration exactly once per session
 if "graph" not in st.session_state:
@@ -225,7 +252,7 @@ if not st.session_state.started:
     turns = st.slider("Number of Questions", min_value=1, max_value=5, value=2)
     
     if st.button("Start Interview", disabled=not resume_text or not job_desc_text):
-        with st.spinner("Analyzing resume, job description, and generating first question..."):
+        with st.spinner("📝 Preparing your next question..."):
             # Chunk and store the job description in job_context collection
             words = job_desc_text.split()
             chunks = []
@@ -270,6 +297,19 @@ else:
     
     with st.sidebar:
         st.header("📊 Live Report Panel")
+        
+        # Check if mic is working by testing Flask server
+        try:
+            response = requests.get("http://localhost:5050/transcript")
+            if response.status_code == 200:
+                st.success("🎤 Voice ready")
+            else:
+                st.warning("⚠️ Voice degraded")
+        except:
+            st.error("🔇 Voice unavailable")
+            
+        st.divider()
+
         if scores:
             dimensions = ["relevance", "specificity", "star_completeness", "confidence", "accuracy", "impact"]
             avg_overall = sum(s.get("overall_score", 0) for s in scores) / len(scores)
@@ -294,12 +334,13 @@ else:
                 st.markdown(f"{i}. {p}")
                 
             if not state_snapshot.next:
-                st.markdown("---")
-                st.markdown("### 🚀 30-Day Action Plan")
-                st.success(f"Primary Focus: **{lowest_dim.replace('_', ' ').title()}**")
-                st.markdown("**Week 1-2: Foundation**\n- Review the STAR method structure.\n- Focus on addressing the specific question asked.")
-                st.markdown("**Week 3: Technical Depth**\n- Practice weaving specific tools, constraints, and metrics into answers.")
-                st.markdown("**Week 4: Polish**\n- Work on delivering answers with confidence and clarity.")
+                with st.spinner("📊 Building your session report..."):
+                    st.markdown("---")
+                    st.markdown("### 🚀 30-Day Action Plan")
+                    st.success(f"Primary Focus: **{lowest_dim.replace('_', ' ').title()}**")
+                    st.markdown("**Week 1-2: Foundation**\n- Review the STAR method structure.\n- Focus on addressing the specific question asked.")
+                    st.markdown("**Week 3: Technical Depth**\n- Practice weaving specific tools, constraints, and metrics into answers.")
+                    st.markdown("**Week 4: Polish**\n- Work on delivering answers with confidence and clarity.")
         else:
             st.info("Answer the first question to see your live report!")
 
@@ -334,7 +375,21 @@ else:
     
     # Check if we are paused at the human_input node
     if state_snapshot.next and "human_input" in state_snapshot.next:
-        user_input = st.chat_input("Type your answer here...")
+        # Speak the active question if it hasn't been spoken yet
+        if history:
+            active_question = history[-1]["content"]
+            if len(history) == 1:
+                # Opening question: prepend with the required session start message
+                to_speak = "Welcome. I have reviewed your resume and the job description. Let's begin. " + active_question
+            else:
+                to_speak = active_question
+
+            if st.session_state.last_spoken != to_speak:
+                speak_text(to_speak, enabled=st.session_state.voice_enabled)
+                st.session_state.last_spoken = to_speak
+                time.sleep(0.35)
+
+        user_input = render_voice_input()
         
         if user_input:
             # 1. Update the state with the candidate's answer
@@ -345,13 +400,20 @@ else:
             )
             
             # 2. Resume the graph (it will execute human_input, then evaluator, then loop)
-            with st.spinner("Evaluating your answer and thinking of the next question..."):
+            with st.spinner("🧠 Analyzing your answer across 6 dimensions..."):
                 st.session_state.graph.app.invoke(None, st.session_state.config)
             st.rerun()
             
     # Check if graph has reached END
     elif not state_snapshot.next:
         st.success("🎉 Interview Complete! Check the expanders above to see your scores.")
+        
+        # Speak the session end message if it hasn't been spoken yet
+        end_msg = "Thank you. Generating your report now."
+        if st.session_state.last_spoken != end_msg:
+            speak_text(end_msg, enabled=st.session_state.voice_enabled)
+            st.session_state.last_spoken = end_msg
+
         if st.button("Restart Interview"):
             st.session_state.clear()
             st.rerun()
