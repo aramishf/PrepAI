@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #31333F;
+      background-color: #FFFFFF;
+      border: 1px solid #E6E8F1;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .btn:hover {
+      background-color: #F9FAFB;
+      border-color: #1c83e1;
+    }
+    .recording {
+      color: #FFFFFF;
+      background-color: #ff4b4b;
+      border-color: #ff4b4b;
+    }
+    .recording:hover {
+      background-color: #e03e3e;
+      border-color: #e03e3e;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      margin-right: 8px;
+      display: inline-block;
+    }
+    .recording .dot {
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+    #transcript {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #555;
+      font-style: italic;
+    }
+    .error {
+      color: #ff4b4b;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <button id="record-btn" class="btn">🎤 Click to speak your answer</button>
+  <div id="transcript"></div>
+  <div id="error-msg" class="error"></div>
+
+  <script>
+    function sendValue(value) {
+      window.parent.postMessage({
+        type: "streamlit:setComponentValue",
+        value: value
+      }, "*");
+    }
+
+    window.addEventListener("load", () => {
+      window.parent.postMessage({type: "streamlit:componentReady", metadata: {apiVersion: 1}}, "*");
+      window.parent.postMessage({type: "streamlit:setFrameHeight", height: 100}, "*");
+    });
+
+    const recordBtn = document.getElementById("record-btn");
+    const transcriptDiv = document.getElementById("transcript");
+    const errorDiv = document.getElementById("error-msg");
+
+    let recognition = null;
+    let isRecording = false;
+    let finalTranscript = "";
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      recordBtn.disabled = true;
+      errorDiv.innerText = "Use Chrome for voice. Type below instead.";
+    } else {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        isRecording = true;
+        recordBtn.innerHTML = '<span class="dot"></span>🔴 Recording... click to stop';
+        recordBtn.classList.add("recording");
+        transcriptDiv.innerText = "";
+        errorDiv.innerText = "";
+        finalTranscript = "";
+      };
+
+      recognition.onresult = (event) => {
+        let interimTranscript = "";
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+        transcriptDiv.innerText = finalTranscript + interimTranscript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        if (event.error === 'not-allowed') {
+          errorDiv.innerText = "Mic access denied. Type below.";
+        } else {
+          errorDiv.innerText = "Error: " + event.error + ". Type below.";
+        }
+        stopRecording();
+      };
+
+      recognition.onend = () => {
+        stopRecording();
+        if (finalTranscript.trim()) {
+          sendValue(finalTranscript.trim());
+        }
+      };
+    }
+
+    function startRecording() {
+      if (recognition) {
+        try {
+          recognition.start();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
+    function stopRecording() {
+      if (isRecording) {
+        isRecording = false;
+        recordBtn.innerHTML = '🎤 Click to speak your answer';
+        recordBtn.classList.remove("recording");
+        if (recognition) {
+          recognition.stop();
+        }
+      }
+    }
+
+    recordBtn.addEventListener("click", () => {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+    });
+  </script>
+</body>
+</html>
